@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="images/favicon.png">
+    <!-- Site Title  -->
+    <title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="../assets/css/vendor.bundle.css?ver=104">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+</head>
+
+<body class="page-user">
+<th:block th:include="~{/commons/navbar}">
+</th:block>
+
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="token-statistics card card-token height-auto">
+                    <div class="card-innr">
+                        <div class="token-balance token-balance-with-icon">
+                            <div class="token-balance-icon">
+                                <img src="/images/logo-light-sm.png" alt="logo">
+                            </div>
+                            <div class="token-balance-text">
+                                <h6 class="card-sub-title">Wallet Balance</h6>
+                                <span class="lead" th:text="${walletBalance} + ' TLK'"></span>
+                            </div>
+                        </div>
+                        <div class="token-balance token-balance-s2">
+
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+            <div class="col-lg-8">
+                <div class="token-information card card-full-height">
+                    <!--                    <div class="content-area card card-danger card-text-light">-->
+                    <div class="card-innr">
+                        <div class="card-head">
+                            <h6 class="card-title">Reminder</h6>
+                        </div>
+                        <p>Always remember to stay vigilant and be on the look-out for suspicious activity. If needed,
+                            don't hesitate to block users.</p>
+
+                    </div><!-- .card-innr -->
+                    <!--                    </div>&lt;!&ndash; .card &ndash;&gt;-->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-lg-6">
+                <div class="card card-full-height">
+                    <div class="card-innr">
+                        <div class="card-head has-aside pb-0">
+                            <h4 class="card-title">Recent Users</h4>
+                        </div>
+                        <table class="data-table user-list">
+                            <tbody>
+                            <th:block th:each="user : ${oldestUsers}">
+                                <tr class="data-item">
+                                    <td class="data-col dt-user">
+                                        <div class="user-block">
+                                            <div class="user-photo">
+                                                <img th:src="@{${user.pictureUrl}}" alt="">
+                                            </div>
+                                            <div class="user-info">
+                                                <span class="lead user-name" th:text="${user.username}"></span>
+                                                <span class="sub user-id" th:text="${user.email}"></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="data-col dt-join text-right">
+                                        <span class="sub join-time" th:text="${user.createdBeforeHours}"></span>
+                                    </td>
+                                </tr><!-- .data-item -->
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-lg-6">
+                <div class="content-area card card-secondary card-text-light">
+                    <div class="card-innr">
+                        <div class="card-head">
+                            <h6 class="card-title">Notification</h6>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. A ad, architecto at commodi corporis cum doloremque, labore nemo neque
+                            praesentium quasi rerum saepe, veniam! Amet dicta omnis placeat quas repudiandae. Lorem
+                            ipsum dolor sit amet, consectetur adipisicing elit. Cumque, ducimus est expedita nemo quasi
+                            suscipit. Assumenda eum facere facilis in perferendis. Accusantium commodi dicta dolore ea
+                            enim illum praesentium quia? Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Commodi ducimus eos error nemo officia, possimus rem sed voluptas voluptatum! Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. A ad, architecto at commodi corporis cum doloremque, labore nemo neque
+                            praesentium quasi rerum saepe, veniam! Amet dicta omnis placeat quas repudiandae. Lorem
+                            ipsum dolor sit amet, consectetur adipisicing elit. Cumque, ducimus est expedita nemo quasi
+                            suscipit. Assumenda eum facere facilis in perferendis. Accusantium commodi dicta dolore ea
+                            enim illum praesentium quia?</p>
+                    </div><!-- .card-innr -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-lg-6">
+                <div class="token-transaction card card-full-height">
+                    <div class="card-innr">
+                        <div class="card-head has-aside">
+                            <h4 class="card-title">Transaction</h4>
+                            <div class="card-opt">
+                                <a th:href="@{/user/transactions}" class="link ucap">View ALL <em
+                                        class="fas fa-angle-right ml-2"></em></a>
+                            </div>
+                        </div>
+                        <table class="table tnx-table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Amount</th>
+                                <th class="d-none d-sm-table-cell tnx-date">Date</th>
+                                <th class="tnx-type">
+                                    <div class="tnx-type-text"></div>
+                                </th>
+                            </tr><!-- tr -->
+                            </thead><!-- thead -->
+                            <tbody>
+                            <th:block th:each="transaction : ${transactions}">
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="data-state data-state-approved">
+                                            </div>
+                                            <span class="lead" th:text="${transaction.id}"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <span>
+                                                <span class="lead" th:text="${transaction.amount}"></span>
+                                                <span class="sub">TLK <em class="fas fa-info-circle"
+                                                                          data-toggle="tooltip" data-placement="bottom"
+                                                                          data-original-title="1 TLK"></em></span>
+                                            </span>
+                                    </td>
+                                    <td class="d-none d-sm-table-cell tnx-date">
+                                        <span class="sub sub-s2" th:text="${transaction.executedOn}"></span>
+                                    </td>
+                                    <th:block th:switch="${transaction.type}">
+                                        <div th:case="'TOPUP'">
+                                            <td class="data-col dt-type">
+                                                <span class="dt-type-md badge badge-outline badge-warning badge-md">TopUp</span>
+                                            </td>
+                                        </div>
+                                        <div th:case="'INCOMING'">
+                                            <td class="data-col dt-type">
+                                                <span class="dt-type-md badge badge-outline badge-primary badge-md">Incoming</span>
+                                            </td>
+                                        </div>
+                                        <div th:case="'OUTGOING'">
+                                            <td class="data-col dt-type">
+                                                <span class="dt-type-md badge badge-outline badge-success badge-md">Outgoing</span>
+                                            </td>
+                                        </div>
+                                        <div th:case="'NONE'">
+                                            <td class="data-col dt-type">
+                                                <span class="dt-type-md badge badge-outline badge-light badge-md">Transaction</span>
+                                            </td>
+                                        </div>
+                                    </th:block>
+                                </tr><!-- tr -->
+                            </th:block>
+                            </tbody><!-- tbody -->
+                        </table><!-- .table -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="token-sale-graph card card-full-height">
+                    <div class="card-innr">
+                        <div class="card-head has-aside">
+                            <h4 class="card-title">All Transactions <h6>(select Time Frame)</h6></h4>
+                            <div class="card-opt">
+                                <select class="dropdown-list" id="timeframe">
+                                    <option><a href="#">7 days</a></option>
+                                    <option><a href="#">4 weeks</a></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-tokensale">
+                            <canvas id="tknSale"></canvas>
+                        </div>
+                    </div>
+                </div><!-- .card -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .page-content -->
+
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="#">Whitepaper</a></li>
+                    <li><a href="faq-page.html">FAQs</a></li>
+                    <li><a href="regular-page.html">Privacy Policy</a></li>
+                    <li><a href="regular-page.html">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">&copy; 2018 TokenWiz.</div>
+                    <div class="lang-switch relative">
+                        <a href="#" class="lang-switch-btn toggle-tigger">En <em class="ti ti-angle-up"></em></a>
+                        <div class="toggle-class dropdown-content dropdown-content-up">
+                            <ul class="lang-list">
+                                <li><a href="#">Fr</a></li>
+                                <li><a href="#">Bn</a></li>
+                                <li><a href="#">Lt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+
+<!-- JavaScript (include all script here) -->
+<script src="../assets/js/jquery.bundle.js?ver=104"></script>
+<script src="../assets/js/script.js?ver=104"></script>
+<script src="/js/transaction-table-fetch.js"></script>
+
+</body>
+</html>

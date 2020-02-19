@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="../images/favicon.png">
+    <!-- Site Title  -->
+    <title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="../assets/css/vendor.bundle.css?ver=104">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="../assets/css/style.css?ver=104">
+
+</head>
+
+<body class="page-user">
+
+<th:block th:include="~{/commons/navbar}">
+</th:block>
+
+<div class="page-content">
+    <div class="container">
+        <div class="alert alert-danger-alt alert-dismissible fade show" th:if="${error}"
+             th:text="${errorMessage}">
+            A simple danger alert with dismissible option check it out!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="gaps-1x"></div><!-- .gaps -->
+        <div class="card content-area">
+            <div class="card-innr">
+                <div class="card-head">
+                    <h4 class="card-title">Enter search criteria</h4>
+                </div>
+                <form th:action="@{/user/transactions}" th:object="${searchByDto}" th:method="post">
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label">From Date</label>
+                                <div class="relative">
+                                    <input class="input-bordered date-picker" type="text" id="fromAdmin" name="from"
+                                           th:field="*{from}">
+                                    <span class="input-icon input-icon-right date-picker-icon"><em
+                                            class="ti ti-calendar"></em></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label">To Date</label>
+                                <div class="relative">
+                                    <input class="input-bordered date-picker" type="text" id="toAdmin" name="to"
+                                           th:field="*{to}">
+                                    <span class="input-icon input-icon-right date-picker-icon"><em
+                                            class="ti ti-calendar"></em></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" th:if="${transactionPageDto.admin}">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label">Sender</label>
+                                <div class="select-wrapper">
+                                    <select class="input-bordered" style="background-color: white" th:name="sender"
+                                            id="sender">
+                                        <option selected value="">-- select --</option>
+                                        <option th:each="sender : ${transactionPageDto.senders}"
+                                                th:value="${sender}"
+                                                th:text="${sender}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label">Recipient</label>
+                                <div class="select-wrapper">
+                                    <select class="input-bordered" style="background-color: white" th:name="recipient"
+                                            id="recipient">
+                                        <option selected value="">-- select --</option>
+                                        <option th:each="recipient : ${transactionPageDto.recipients}"
+                                                th:value="${recipient}"
+                                                th:text="${recipient}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label">Incoming/Outgoing</label>
+                                <div class="select-wrapper">
+                                    <select class="input-bordered" style="background-color: white" th:name="type"
+                                            id="type">
+                                        <option selected value="ALL"> -- select --</option>
+<!--                                        <option value=""></option>-->
+                                        <option value="ALL">All</option>
+                                        <option value="INCOMING">Incoming</option>
+                                        <option value="OUTGOING">Outgoing</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label">Sort</label>
+                                <div class="select-wrapper">
+                                    <select class="input-bordered" style="background-color: white" th:name="sort"
+                                            id="sort">
+<!--                                        <option disabled selected value="id"> &#45;&#45; select &#45;&#45;</option>-->
+                                        <option value="id">-- select --</option>
+                                        <option value="amount-ascending">Amount - Ascending</option>
+                                        <option value="amount-descending">Amount - Descending</option>
+                                        <option value="executed_on-ascending">Date - Ascending</option>
+                                        <option value="executed_on-descending">Date - Descending</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center" id="search-error-div"></div>
+                    <div class="row">
+                        <div class="col-6 col-lg-4"></div>
+                        <div class="col-6 col-lg-4 d-flex justify-content-center">
+                            <button th:type="submit" class="btn btn-primary-alt" id="searchBtn">Search</button>
+                        </div>
+                        <div class="col-6 col-lg-4"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="gaps-1x"></div><!-- .gaps -->
+        <div class="card content-area">
+            <div class="card-innr">
+                <div class="card-head">
+                    <h4 class="card-title">User Transactions</h4>
+                </div>
+                <table th:class="data-table">
+                    <thead>
+                    <tr class="data-item data-head">
+                        <th class="data-col dt-tnxno">Tranx NO</th>
+                        <th class="data-col dt-amount">Amount</th>
+                        <th class="data-col dt-account">From</th>
+                        <th class="data-col dt-account">Wallet</th>
+                        <th class="data-col dt-account">To</th>
+                        <th class="data-col dt-account">Wallet</th>
+                        <th class="data-col dt-type">
+                            <div class="dt-type-text">Type</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="transaction : ${transactions}">
+                        <tr class="data-item">
+                            <td class="data-col dt-tnxno">
+                                <div class="d-flex align-items-center">
+                                    <div class="data-state data-state-approved">
+                                        <span class="d-none">Approved</span>
+                                    </div>
+                                    <div class="fake-class">
+                                        <span class="lead tnx-id" th:text="${transaction.id}">TNX1002</span>
+                                        <span class="sub sub-date" th:text="${transaction.executedOn}"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="data-col dt-amount">
+                                <span class="lead amount-pay" th:text="${transaction.amount}"></span>
+                                <span class="sub sub-symbol">TLK <em class="fas fa-info-circle" data-toggle="tooltip"
+                                                                     data-placement="bottom"
+                                                                     title="1 TLK = 1,000,000.00 TWZ"></em></span>
+                            </td>
+                            <td class="data-col dt-amount">
+                                <span class="lead amount-pay" th:if="${transaction.type}!='TOPUP'"
+                                      th:text="${transaction.from}"></span>
+                            </td>
+                            <td class="data-col dt-type">
+                                <span class="lead amount-pay"
+                                      th:if="${#authentication.getPrincipal().getUsername()==transaction.from}"
+                                      th:text="${transaction.getSenderWalletName()}"></span>
+                            </td>
+                            <td class="data-col dt-amount">
+                                <span class="lead amount-pay" th:text="${transaction.to}"></span>
+                            </td>
+                            <td class="data-col dt-type">
+                                <span class="lead amount-pay"
+                                      th:if="${transaction.type=='TOPUP' or transaction.to==transaction.from or #authentication.getPrincipal().getUsername()==transaction.to}"
+                                      th:text="${transaction.getReceiverWalletName()}"></span>
+                            </td>
+                            <th:block th:switch="${transaction.type}">
+                                <div th:case="'TOPUP'">
+                                    <td class="data-col dt-type">
+                                        <span class="dt-type-md badge badge-outline badge-warning badge-md">TopUp</span>
+                                    </td>
+                                </div>
+                                <div th:case="'INCOMING'">
+                                    <td class="data-col dt-type">
+                                        <span class="dt-type-md badge badge-outline badge-primary badge-md">Incoming</span>
+                                    </td>
+                                </div>
+                                <div th:case="'OUTGOING'">
+                                    <td class="data-col dt-type">
+                                        <span class="dt-type-md badge badge-outline badge-success badge-md">Outgoing</span>
+                                    </td>
+                                </div>
+                                <div th:case="'NONE'">
+                                    <td class="data-col dt-type">
+                                        <span class="dt-type-md badge badge-outline badge-light badge-md">Transaction</span>
+                                    </td>
+                                </div>
+                            </th:block>
+                        </tr><!-- .data-item -->
+                    </th:block>
+                    </tbody>
+                </table>
+                <div class="gaps-1x"></div><!-- .gaps -->
+                <div th:class="row">
+                    <div class="col-md-2">
+                        <div class="col-6 col-lg-3"><a th:if="${transactionPageDto.hasPrevious}"
+                                                       th:href="@{/user/transactions(page=${transactionPageDto.currentPage - 1},from=${transactionPageDto.fromDate},to=${transactionPageDto.toDate},sender=${transactionPageDto.sender},recipient=${transactionPageDto.recipient},type=${transactionPageDto.type},sort=${transactionPageDto.sort})}"
+                                                       class="btn btn-primary-alt">Previous</a></div>
+                        <div class="col-6 col-lg-3"><a th:unless="${transactionPageDto.hasPrevious}"
+                                                       class="btn btn-outline btn-secondary">Previous</a></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="col-6 col-lg-3"><a th:if="${transactionPageDto.hasNext}"
+                                                       th:href="@{/user/transactions(page=${transactionPageDto.currentPage + 1},from=${transactionPageDto.fromDate},to=${transactionPageDto.toDate},sender=${transactionPageDto.sender},recipient=${transactionPageDto.recipient},type=${transactionPageDto.type},sort=${transactionPageDto.sort})}"
+                                                       class="btn btn-primary-alt">Next</a></div>
+                        <div class="col-6 col-lg-3"><a th:unless="${transactionPageDto.hasNext}"
+                                                       class="btn btn-outline btn-secondary">Next</a></div>
+                    </div>
+                    <div class="col-md-8 d-flex justify-content-end"
+                         th:text="${transactionPageDto.fromRecordNum + ' - ' + transactionPageDto.toRecordNum + ' / ' + transactionPageDto.allRecords}">
+
+                    </div>
+                </div>
+            </div><!-- .card-innr -->
+        </div><!-- .card -->
+    </div><!-- .container -->
+</div><!-- .page-content -->
+
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="#">Whitepaper</a></li>
+                    <li><a href="faq-page.html">FAQs</a></li>
+                    <li><a href="regular-page.html">Privacy Policy</a></li>
+                    <li><a href="regular-page.html">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">&copy; 2018 TokenWiz.</div>
+                    <div class="lang-switch relative">
+                        <a href="#" class="lang-switch-btn toggle-tigger">En <em class="ti ti-angle-up"></em></a>
+                        <div class="toggle-class dropdown-content dropdown-content-up">
+                            <ul class="lang-list">
+                                <li><a href="#">Fr</a></li>
+                                <li><a href="#">Bn</a></li>
+                                <li><a href="#">Lt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+
+
+<!-- JavaScript (include all script here) -->
+<script src="../assets/js/jquery.bundle.js?ver=104"></script>
+<script src="../assets/js/script.js?ver=104"></script>
+<script src="../js/transactions-search-validation.js"></script>
+</body>
+</html>

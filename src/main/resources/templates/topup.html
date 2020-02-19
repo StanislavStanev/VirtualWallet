@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/../images/favicon.png">
+    <!-- Site Title  -->
+    <title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="/../assets/css/vendor.bundle.css?ver=104">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/../assets/css/style.css?ver=104">
+
+</head>
+
+<body class="page-user demo-element">
+
+<th:block th:include="~{/commons/navbar}">
+</th:block>
+
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 aside sidebar-left">
+                <div class="card card-navs">
+                    <div class="card-innr">
+                        <div class="card-head d-none d-lg-block">
+                            <h6 class="card-title card-title-md">Transaction panel</h6>
+                        </div>
+                        <ul class="sidebar-nav">
+                            <li><a th:href="@{/newtransaction/topup}"><em class="ikon ikon-exchange"></em> TopUp</a>
+                            </li>
+                            <li><a th:href="@{/newtransaction/sendmoney}"><em class="ikon ikon-transactions"></em> Send
+                                money</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 main-content">
+                <div class="card content-area">
+                    <div class="card-innr">
+                        <div class="card-head">
+                            <h6 class="card-title">TopUp</h6>
+                        </div>
+
+                        <form th:action="@{/newtransaction/topup}" th:object="${topUpDto}" th:method="post">
+                            <div class="alert alert-danger-alt alert-dismissible fade show" th:if="${hasError}" th:text="${errorMessage}">
+                                A simple danger alert with dismissible option check it out!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="alert alert-success-alt alert-dismissible fade show" th:if="${hasSuccess}" th:text="${successMessage}">
+                                A simple danger alert with dismissible option check it out!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="gaps-1x"></div><!-- .gaps -->
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label">TopUp amount</label>
+                                            <input id="amount" name="amount" class="input-bordered" type="number"
+                                                   min="0.01" step="0.01" max="25000000" value="0.00"
+                                                   placeholder="0.00"
+                                                   th:field="*{amount}">
+                                            <div class="col-sm-auto">
+                                                <div id="amount-error-div" class="input-item-label text-danger"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-item input-with-label">
+                                        <label class="input-item-label">Current balance</label>
+                                        <div class="col-sm-offset">
+                                            <input id="currentBalance" class="input-bordered" readonly
+                                                   th:value="${balance}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label">CSV code</label>
+                                            <input class="input-bordered" type="text" placeholder="000" id="csv"
+                                                   name="csv"
+                                                   maxlength="3"
+                                                   th:field="*{csv}">
+                                            <div class="col-sm-auto">
+                                                <div id="csv-error-div" class="input-item-label text-danger"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col-md-offset-1">
+                                            <label class="input-item-label">Choose Wallet</label>
+                                            <select id="wallet" class="input-bordered" th:field="*{walletName}">
+                                                <option th:each="wallet, iterStat : ${wallets}"
+                                                        th:value="${wallet.walletName}"
+                                                        th:text="${wallet.walletName} + ' - ' + ${wallet.balance}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gaps-2x"></div><!-- .gaps -->
+                                <div class="input-item input-with-label">
+                                    <label class="input-item-label">Bank Statement note</label>
+                                    <input class="input-bordered" type="text" placeholder="TopUp description"
+                                           id="description" name="description" th:field="*{description}">
+                                </div>
+                                <div class="col-sm-auto">
+                                    <div id="note-error-div" class="input-item-label text-danger"></div>
+                                </div>
+                                <div th:if="${!isBlocked}">
+                                    <button class="btn btn-primary btn-block" type="submit" id="topUp">TopUp</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div><!-- .card -->
+            </div>
+        </div><!-- .row-->
+    </div><!-- .container -->
+</div><!-- .page-content -->
+
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="#">Whitepaper</a></li>
+                    <li><a href="faq-page.html">FAQs</a></li>
+                    <li><a href="regular-page.html">Privacy Policy</a></li>
+                    <li><a href="regular-page.html">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">&copy; 2018 TokenWiz.</div>
+                    <div class="lang-switch relative">
+                        <a href="#" class="lang-switch-btn toggle-tigger">En <em class="ti ti-angle-up"></em></a>
+                        <div class="toggle-class dropdown-content dropdown-content-up">
+                            <ul class="lang-list">
+                                <li><a href="#">Fr</a></li>
+                                <li><a href="#">Bn</a></li>
+                                <li><a href="#">Lt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+
+<!-- JavaScript (include all script here) -->
+<script src="/../assets/js/jquery.bundle.js?ver=104"></script>
+<script src="/../assets/js/script.js?ver=104"></script>
+<script src="/js/topup.js"></script>
+</body>
+</html>

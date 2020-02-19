@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/../images/favicon.png">
+    <!-- Site Title  -->
+    <title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="/../assets/css/vendor.bundle.css?ver=104">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/../assets/css/style.css?ver=104">
+
+</head>
+
+<body class="page-user">
+
+<th:block th:include="~{/commons/navbar}">
+</th:block>
+
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 aside sidebar-left">
+                <div class="card card-navs">
+                    <div class="card-innr">
+                        <div class="card-head d-none d-lg-block">
+                            <h6 class="card-title card-title-md">Administration</h6>
+                        </div>
+                        <ul class="sidebar-nav">
+                            <li><a th:href="@{/user/wallets/walletCreate}"><em class="ikon ikon-exchange"></em> Wallet
+                                Create</a>
+                            </li>
+                            <li><a th:href="@{/user/wallets/walletslist}"><em class="ikon ikon-transactions"></em>
+                                Wallets List</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 main-content">
+                <div class="card content-area">
+                    <div class="card-innr">
+                        <div class="card-head">
+                            <h4 class="card-title">User List</h4>
+                        </div>
+                        <table class="data-table dt-init user-list">
+                            <thead>
+                            <tr class="data-item data-head">
+                                <th class="data-col dt-user">Wallet name</th>
+                                <th class="data-col dt-email">Balance</th>
+                                <th class="data-col dt-status ">Default</th>
+                                <th class="data-col dt-shared ">Shared</th>
+                                <th class="data-col dt-set text-right">Set as default</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="wallet, iterStat : ${wallets}">
+                                <tr class="data-item">
+                                    <td class="data-col dt-user">
+                                        <div class="user-block">
+                                            <div class="user-info" th:if="${!wallet.shared}">
+                                                <span class="lead user-name">[[${wallet.walletName}]]</span>
+                                            </div>
+                                            <div class="user-info" th:if="${wallet.getAdmin()}">
+                                                <a class="lead user-name text-primary"
+                                                   th:href="@{'/user/wallets/walletslist/sharedlist/'+ ${wallet.getWalletId()}}"
+                                                >[[${wallet.walletName}]]</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="data-col dt-email">
+                                        <span class="sub sub-s2 sub-email">[[${wallet.balance}]]</span>
+                                    </td>
+                                    <td class="data-col dt-status">
+                                        <input type="checkbox" class="input-checkbox"
+                                               th:id="'checkbox_'+ ${iterStat.count}" name="default"
+                                               th:checked="${wallet.default}" onclick="return false;">
+                                        <label th:for="'checkbox_'+ ${iterStat.count}"></label>
+                                    </td>
+                                    <td class="data-col dt-shared">
+                                        <input type="checkbox" class="input-checkbox"
+                                               th:id="'checkbox_shared_'+ ${iterStat.count}" name="shared"
+                                               th:checked="${wallet.shared}" onclick="return false;">
+                                        <label th:for="'checkbox_shared_'+ ${iterStat.count}"></label>
+                                    </td>
+                                    <td class="data-col dt-set text-right">
+                                        <div class="relative d-inline-block">
+                                            <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em
+                                                    class="ti ti-more-alt"></em></a>
+                                            <div class="toggle-class dropdown-content dropdown-content-top-left">
+                                                <ul class="dropdown-list">
+                                                    <li><a th:if="${!wallet.default}"
+                                                           th:href="@{'/user/wallets/walletslist'(walletname=${wallet.walletName})  }"
+                                                           id="setDefault"><em
+                                                            class="ti ti-na"></em> Set Default</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr><!-- .data-item -->
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div><!-- .card-innr -->
+                </div><!-- .card -->
+            </div>
+        </div>
+    </div><!-- .container -->
+</div><!-- .page-content -->
+
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="#">Whitepaper</a></li>
+                    <li><a href="faq-page.html">FAQs</a></li>
+                    <li><a href="regular-page.html">Privacy Policy</a></li>
+                    <li><a href="regular-page.html">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">&copy; 2018 TokenWiz.</div>
+                    <div class="lang-switch relative">
+                        <a href="#" class="lang-switch-btn toggle-tigger">En <em class="ti ti-angle-up"></em></a>
+                        <div class="toggle-class dropdown-content dropdown-content-up">
+                            <ul class="lang-list">
+                                <li><a href="#">Fr</a></li>
+                                <li><a href="#">Bn</a></li>
+                                <li><a href="#">Lt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+
+<!-- JavaScript (include all script here) -->
+<script src="/../assets/js/jquery.bundle.js?ver=104"></script>
+<script src="/../assets/js/script.js?ver=104"></script>
+</body>
+</html>

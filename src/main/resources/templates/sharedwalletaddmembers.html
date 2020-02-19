@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <style>
+        .ui-menu img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .ui-menu li span {
+            font-size: 1em;
+            padding: 0 0 10px 10px;
+            margin: 0 0 10px 0 !important;
+            white-space: nowrap;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management.">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css"/>
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/../images/favicon.png">
+    <!-- Site Title  -->
+    <title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="/../assets/css/vendor.bundle.css?ver=104">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/../assets/css/style.css?ver=104">
+</head>
+
+<body class="page-user demo-element">
+
+<th:block th:include="~{/commons/navbar}">
+</th:block>
+
+
+<div class="page-content ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 aside sidebar-left">
+                <div class="card card-navs">
+                    <div class="card-innr">
+                        <div class="card-head d-none d-lg-block">
+                            <h6 class="card-title card-title-md">Administration</h6>
+                        </div>
+                        <ul class="sidebar-nav">
+                            <li><a th:href="@{/user/wallets/walletCreate}"><em class="ikon ikon-exchange"></em> Wallet
+                                Create</a>
+                            </li>
+                            <li><a th:href="@{/user/wallets/walletslist}"><em class="ikon ikon-transactions"></em>
+                                Wallets List</a></li>
+                            <li><a th:href="@{/user/wallets/walletslist/addmembers}"><em
+                                    class="ikon ikon-transactions"></em>
+                                Add members to shared wallet</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 main-content">
+                <div class="content-area card">
+                    <div class="card-innr card-innr-fix">
+                        <div class="card-head">
+                            <h6 class="card-title">Add members</h6>
+                        </div>
+                        <div class="alert alert-danger-alt alert-dismissible fade show" th:if="${error}"
+                             th:text="${errorMessage}">
+                            A simple danger alert with dismissible option check it out!
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="gaps-1x"></div><!-- .gaps -->
+                        <!--                        <form th:action="@{/newtransaction/sendmoney}" th:object="${transactionCreateDto}"-->
+                        <!--                              th:method="post" onsubmit="return checkAvailability(this);">-->
+                        <form id="edit-form" th:action="@{/user/wallets/walletslist/addmembers}"
+                              th:object="${userWalletDto}" th:method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label class="input-item-label text-exlight">Member username</label>
+                                        <input class="input-bordered" type="text" id="recipient" name="recipient"
+                                               placeholder="Enter recepient data" th:field="*{username}">
+                                        <div class="col-sm-auto">
+                                            <div id="recipient-error-div" class="input-item-label text-danger"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-item input-with-label">
+                                    <label class="input-item-label text-exlight">Search recipient by:</label>
+                                    <div class="select-wrapper">
+                                        <select id="searchtype" class="input-bordered">
+                                            <option value="username" selected>Username</option>
+                                            <option value="phone">Phone</option>
+                                            <option value="email">Email</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="input-item-label">Choose Wallet</label>
+                                    <select id="wallet" class="input-bordered" th:field="*{walletName}">
+                                        <option text-exlight th:each="wallet, iterStat : ${wallets}"
+                                                th:value="${wallet.walletName}"
+                                                th:text="${wallet.walletName} + ' - ' + ${wallet.balance}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="gaps-1x"></div>
+                            <div class="row align-items-center guttar-vr-40px" th:if="${!isBlocked}">
+                                <div class="col-sm-6 col-lg-3">
+                                    <button data-toggle="modal" data-target="#modal-medium" class="btn btn-primary"
+                                            id="send1">Add member
+                                    </button>
+                                </div>
+                                <!--                                <button class="btn btn-primary" id="send">Send</button>-->
+                            </div>
+
+                        </form>
+                    </div><!-- .card-innr -->
+                </div><!-- .card -->
+            </div>
+        </div><!-- .row-->
+    </div><!-- .container -->
+</div><!-- .page-content -->
+
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="#">Whitepaper</a></li>
+                    <li><a href="faq-page.html">FAQs</a></li>
+                    <li><a href="regular-page.html">Privacy Policy</a></li>
+                    <li><a href="regular-page.html">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">&copy; 2018 TokenWiz.</div>
+                    <div class="lang-switch relative">
+                        <a href="#" class="lang-switch-btn toggle-tigger">En <em class="ti ti-angle-up"></em></a>
+                        <div class="toggle-class dropdown-content dropdown-content-up">
+                            <ul class="lang-list">
+                                <li><a href="#">Fr</a></li>
+                                <li><a href="#">Bn</a></li>
+                                <li><a href="#">Lt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+<!-- JavaScript (include all script here) -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+‌
+<script src="/../assets/js/jquery.bundle.js?ver=104"></script>
+<script src="/../assets/js/script.js?ver=104"></script>
+<script src="/js/autocomplete.js"></script>
+</body>
+</html>

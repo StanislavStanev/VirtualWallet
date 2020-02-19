@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/../images/favicon.png">
+    <!-- Site Title  -->
+    <title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="/../assets/css/vendor.bundle.css?ver=104">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/../assets/css/style.css?ver=104">
+
+</head>
+
+<body class="page-user">
+
+
+<th:block th:include="~{/commons/navbar}">
+</th:block>
+
+
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 aside sidebar-left">
+                <div class="card card-navs">
+                    <div class="card-innr">
+                        <div class="card-head d-none d-lg-block">
+                            <h6 class="card-title card-title-md">Administration</h6>
+                        </div>
+                        <ul class="sidebar-nav">
+                            <li><a th:href="@{/admin/users}"><em class="ikon ikon-user"></em> Users</a></li>
+                            <li><a th:href="@{/admin/transactions}"><em class="ikon ikon-transactions"></em>
+                                Transactions</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 main-content">
+                <div class="card content-area">
+                    <div class="card-innr">
+                        <script>
+                            function changeLocationUser() {
+                                var x = document.getElementById("filtercondition").value;
+                                window.location = "http://localhost:8080/admin/users?username=" + x;
+                            }
+
+                            function changeLocationEmail() {
+                                var x = document.getElementById("filtercondition").value;
+                                window.location = "http://localhost:8080/admin/users?email=" + x;
+                            }
+
+                            function changeLocationPhone() {
+                                var x = document.getElementById("filtercondition").value;
+                                window.location = "http://localhost:8080/admin/users?phone=" + x;
+                            }
+                        </script>
+                        <div class="chat-users-search">
+                            <div class="flex-col flex-grow-1">
+                                <div class="relative">
+                                    <span class="input-icon input-icon-lg input-icon-left"><em
+                                            class="ti ti-search"></em></span>
+                                    <input class="input-bordered" type="text" id="filtercondition"
+                                           name="filtercondition" placeholder="Search contact">
+                                </div>
+                            </div>
+                            <div class="chat-users-add">
+                                <a href="#" class="link ucap link-light toggle-tigger toggle-caret">Filter</a>
+                                <div class="toggle-class dropdown-content user-dropdown">
+                                    <ul class="dropdown-list">
+                                        <li><a onclick="changeLocationUser()" href="#">By Username</a></li>
+                                        <li><a onclick="changeLocationEmail()" href="#">By Email</a></li>
+                                        <li><a onclick="changeLocationPhone()" href="#">By Phone</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="chat-users-add">
+                                <a href="#" class="link ucap link-light toggle-tigger toggle-caret">Sorting</a>
+                                <div class="toggle-class dropdown-content user-dropdown">
+                                    <ul class="dropdown-list">
+                                        <li><a th:href="@{/admin/users(sort='name:asc')}">By Name A..Z</a></li>
+                                        <li><a th:href="@{/admin/users(sort='name:desc')}">By Name Z..A</a></li>
+                                        <li><a th:href="@{/admin/users(sort='username:asc')}">By Username A..Z</a></li>
+                                        <li><a th:href="@{/admin/users(sort='username:desc')}">By Username Z..A</a></li>
+                                        <li><a th:href="@{/admin/users(sort='email:asc')}">By Email A..Z</a></li>
+                                        <li><a th:href="@{/admin/users(sort='email:desc')}">By Email Z..A</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="data-table user-list">
+                            <thead>
+                            <tr class="data-item data-head">
+                                <th class="data-col dt-user">User</th>
+                                <th class="data-col dt-email">Email</th>
+                                <th class="data-col dt-phone">Phone</th>
+                                <th class="data-col dt-status">
+                                    <div class="dt-status-text">Status</div>
+                                </th>
+                                <th class="data-col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="user : ${users}">
+                                <tr class="data-item">
+                                    <td class="data-col dt-user">
+                                        <div class="user-block">
+                                            <div class="user-photo">
+                                                <img src="/../images/user-a.jpg" alt="">
+                                            </div>
+                                            <div class="user-info">
+                                                <span class="lead user-name">[[${user.fullname}]]</span>
+                                                <span class="sub user-id">[[${user.username}]]</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="data-col dt-email">
+                                        <span class="sub sub-s2 sub-email">[[${user.email}]]</span>
+                                    </td>
+                                    <td class="data-col dt-email">
+                                        <span class="sub sub-s2 sub-email">[[${user.phone}]]</span>
+                                    </td>
+                                    <td class="data-col dt-status">
+                                        <span th:if="${user.isBlocked()}"
+                                              class="dt-status-md badge badge-outline badge-danger badge-md">Blocked</span>
+                                        <span th:unless="${user.isBlocked()}"
+                                              class="dt-status-md badge badge-outline badge-success badge-md">Active</span>
+                                        <span class="dt-status-sm badge badge-sq badge-outline badge-success badge-md">A</span>
+                                    </td>
+                                    <td class="data-col text-right">
+                                        <div class="relative d-inline-block">
+                                            <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em
+                                                    class="ti ti-more-alt"></em></a>
+                                            <div class="toggle-class dropdown-content dropdown-content-top-left">
+                                                <ul class="dropdown-list">
+                                                    <li><a th:if="${user.isBlocked()}"
+                                                           th:href="@{'/admin/users/unblock/'+ ${user.getUsername()}}"
+                                                           id="unblock"><em
+                                                            class="ti ti-unlock" ></em> Unblock</a></li>
+                                                    <li><a th:unless="${user.isBlocked()}"
+                                                           th:href="@{'/admin/users/block/'+ ${user.getUsername()} }"
+                                                           id="block"><em
+                                                            class="ti ti-na"></em> Block</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr><!-- .data-item -->
+                            </th:block>
+                            </tbody>
+                        </table>
+                        <div class="row align-items-center">
+                            <div class="col-sm-6 text-left">
+                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                    <ul class="pagination">
+                                        <th:block
+                                                th:each="i,iStat : ${#numbers.sequence(page>0?page-1:0 , page>numberOfButtons-2&&numberOfPages>0?numberOfButtons-1:numberOfButtons)}"
+                                                th:if="${iStat.index < 3 }">
+                                            <li class="paginate_button page-item ">
+                                                <a th:href="@{/admin/users(page=${i},size=${numberOfPages},sort=${sort},username=${username},email=${email},phone=${phone})}"
+                                                   aria-controls="DataTables_Table_0" tabindex="0" class="page-link">[[${i}+1]]</a>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 text-sm-right">
+                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
+                                     aria-live="polite">[[${numberOfPages}>0?${(page+1)*5-4}]]
+                                    [[${numberOfPages}>0?'-']]
+                                    [[${(page+1)*5>numberOfPages}?${numberOfPages}:${(page+1)*5}]] of
+                                    [[${numberOfPages}]]
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- .card-innr -->
+                </div><!-- .card -->
+            </div>
+        </div>
+    </div><!-- .container -->
+</div><!-- .page-content -->
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="#">Whitepaper</a></li>
+                    <li><a href="faq-page.html">FAQs</a></li>
+                    <li><a href="regular-page.html">Privacy Policy</a></li>
+                    <li><a href="regular-page.html">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">&copy; 2018 TokenWiz.</div>
+                    <div class="lang-switch relative">
+                        <a href="#" class="lang-switch-btn toggle-tigger">En <em class="ti ti-angle-up"></em></a>
+                        <div class="toggle-class dropdown-content dropdown-content-up">
+                            <ul class="lang-list">
+                                <li><a href="#">Fr</a></li>
+                                <li><a href="#">Bn</a></li>
+                                <li><a href="#">Lt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+
+<!-- JavaScript (include all script here) -->
+<script src="/../assets/js/jquery.bundle.js?ver=104"></script>
+<script src="/../assets/js/script.js?ver=104"></script>
+<script src="/js/block-unblock-event.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <style>
+        .ui-menu img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .ui-menu li span {
+            font-size: 1em;
+            padding: 0 0 10px 10px;
+            margin: 0 0 10px 0 !important;
+            white-space: nowrap;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management.">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css"/>
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="/../images/favicon.png">
+    <!-- Site Title  -->
+    <title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="/../assets/css/vendor.bundle.css?ver=104">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/../assets/css/style.css?ver=104">
+</head>
+
+<body class="page-user demo-element">
+
+<th:block th:include="~{/commons/navbar}">
+</th:block>
+
+
+<div class="page-content ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 aside sidebar-left">
+                <div class="card card-navs">
+                    <div class="card-innr">
+                        <div class="card-head d-none d-lg-block">
+                            <h6 class="card-title card-title-md">Transaction panel</h6>
+                        </div>
+                        <ul class="sidebar-nav">
+                            <li><a th:href="@{/newtransaction/topup}"><em class="ikon ikon-exchange"></em> TopUp</a>
+                            </li>
+                            <li><a th:href="@{/newtransaction/sendmoney}"><em class="ikon ikon-transactions"></em> Send
+                                money</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <li hidden>Welcome, <span
+                    id="userFromSession"
+                    th:text="${#authentication.getPrincipal().getUsername()}"></span></li>
+            <div class="col-lg-9 main-content">
+                <div class="content-area card">
+                    <div class="card-innr card-innr-fix">
+                        <div class="card-head">
+                            <h6 class="card-title">Send Money</h6>
+                        </div>
+                        <div class="alert alert-danger-alt alert-dismissible fade show" th:if="${hasError}" th:text="${errorMessage}">
+                            A simple danger alert with dismissible option check it out!
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="alert alert-success-alt alert-dismissible fade show" th:if="${hasSuccess}" th:text="${successMessage}">
+                            A simple danger alert with dismissible option check it out!
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="gaps-1x"></div><!-- .gaps -->
+                        <!--                        <form th:action="@{/newtransaction/sendmoney}" th:object="${transactionCreateDto}"-->
+                        <!--                              th:method="post" onsubmit="return checkAvailability(this);">-->
+                        <form id="edit-form" onsubmit="return false">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label class="input-item-label text-exlight">Recipient</label>
+                                        <input class="input-bordered" type="text" id="recipient" name="recipient"
+                                               placeholder="Enter recepient data">
+                                        <div class="col-sm-auto">
+                                            <div id="recipient-error-div" class="input-item-label text-danger"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="input-item input-with-label">
+                                    <label class="input-item-label text-exlight">Search recipient by:</label>
+                                    <div class="select-wrapper">
+                                        <select id="searchtype" class="input-bordered">
+                                            <option value="username" selected>Username</option>
+                                            <option value="phone">Phone</option>
+                                            <option value="email">Email</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label class="input-item-label text-exlight">Amount</label>
+                                        <input id="sendAmount" class="input-bordered" type="number" min="0.01"
+                                               step="0.01" max="25000000"
+                                               value="0.00" placeholder="0.00">
+                                        <div class="col-sm-auto">
+                                            <div id="amount-error-div" class="input-item-label text-danger"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="input-item-label text-exlight">Current balance</label>
+                                    <div class="col-xs-offset-0">
+                                        <input id="currentBalanceEdit" class="input-bordered form-group"
+                                               th:value="${balance}" readonly>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="input-item-label text-white">Get Confirmation Code</label>
+                                    <div class="ml-3 col-xs-push-0">
+                                        <button href="#" class="btn btn-primary swal-success"
+                                                id="getConfirmationCode" hidden>Get Confirmation Code
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label class="input-item-label text-exlight">Note</label>
+                                        <input class="input-bordered" type="text" id="note">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label id="senderWalletText" class="input-item-label">Choose Wallet</label>
+                                    <!--                                th:field="*{walletName}"-->
+                                    <select id="wallet" class="input-bordered">
+                                        <option text-exlight th:each="wallet, iterStat : ${wallets}"
+                                                th:value="${wallet.walletName}"
+                                                th:text="${wallet.walletName} + ' - ' + ${wallet.balance}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6" id="walletReceiverSection" hidden>
+                                    <label class="input-item-label">To</label>
+                                    <!--                                th:field="*{walletName}"-->
+                                    <select id="walletReceiver" class="input-bordered">
+                                        <option text-exlight th:each="wallet, iterStat : ${wallets}"
+                                                th:value="${wallet.walletName}"
+                                                th:text="${wallet.walletName} + ' - ' + ${wallet.balance}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="gaps-1x"></div>
+                            <div class="row align-items-center guttar-vr-40px" th:if="${!isBlocked}">
+                                <div class="col-sm-6 col-lg-3">
+                                    <button data-toggle="modal" data-target="#modal-medium" class="btn btn-primary"
+                                            id="send1">Check transaction
+                                    </button>
+                                </div>
+                                <!--                                <button class="btn btn-primary" id="send">Send</button>-->
+                            </div>
+
+                        </form>
+                    </div><!-- .card-innr -->
+                </div><!-- .card -->
+            </div>
+        </div><!-- .row-->
+    </div><!-- .container -->
+</div><!-- .page-content -->
+
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="#">Whitepaper</a></li>
+                    <li><a href="faq-page.html">FAQs</a></li>
+                    <li><a href="regular-page.html">Privacy Policy</a></li>
+                    <li><a href="regular-page.html">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">&copy; 2018 TokenWiz.</div>
+                    <div class="lang-switch relative">
+                        <a href="#" class="lang-switch-btn toggle-tigger">En <em class="ti ti-angle-up"></em></a>
+                        <div class="toggle-class dropdown-content dropdown-content-up">
+                            <ul class="lang-list">
+                                <li><a href="#">Fr</a></li>
+                                <li><a href="#">Bn</a></li>
+                                <li><a href="#">Lt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+<!-- Modal Medium -->
+<div class="modal fade" id="modal-medium" tabindex="-1">
+    <div class="modal-dialog modal-dialog-md modal-dialog-centered">
+        <div class="modal-content">
+            <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
+            <div class="popup-body">
+                <h3 class="popup-title">Transaction confirmation</h3>
+                <form th:action="@{/newtransaction/sendmoney}" th:object="${transactionCreateDto}"
+                      th:method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label text-exlight">Recipient</label>
+                                <input class="input-bordered" type="text" id="recipientSend" name="recipientSend"
+                                       th:field="*{receiver}" readonly>
+                            </div>
+                        </div>
+                        <div class="input-item input-with-label">
+                            <label class="input-item-label">Recipient found by:</label>
+                            <div class="input-item">
+                                <input id="searchTypeSend" class="input-bordered" type="text"
+                                       th:field="*{receiverDataType}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label text-exlight">Amount</label>
+                                <input id="sendAmountSend" class="input-bordered" type="text"
+                                       th:field="*{amount}" readonly>
+                            </div>
+                        </div>
+                        <div class="input-item input-with-label">
+                            <label class="input-item-label">Current balance</label>
+                            <div class="col-sm-offset">
+                                <input id="currentBalance" class="input-bordered" readonly
+                                       th:value="${balance}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-item input-with-label">
+                            <label id="tokenSendLabel" class="input-item-label" hidden>Enter 6 digit code</label>
+                                <div class="col-sm-offset">
+                                    <input id="tokenSend" class="input-bordered" type="text"
+                                           th:field="*{token}" hidden>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label text-exlight">Note</label>
+                                <input id="noteSend" class="input-bordered" type="text" th:field="*{note}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-item input-with-label">
+                                <label id="walletSendLabel" class="input-item-label text-exlight">Wallet</label>
+                                <input id="walletSend" class="input-bordered" type="text" th:field="*{walletName}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div id="walletToReceiveModal" class="col-md-6" hidden>
+                            <div class="input-item input-with-label">
+                                <label class="input-item-label text-exlight">To</label>
+                                <input id="walletToReceive" class="input-bordered" type="text" th:field="*{walletName2}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6" hidden>
+                            <div class="input-item input-with-label">
+                                <input id="checksum" class="input-bordered" type="text" th:field="*{checksum}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gaps-1x"></div>
+                    <div class="row align-items-center guttar-vr-40px">
+                        <button class="btn btn-secondary" style="margin:5px;" id="edit" data-dismiss="modal">Edit
+                        </button>
+                        <button class="btn btn-primary" style="margin:5px;" id="confirm">Confirm</button>
+                    </div>
+
+                </form>
+            </div>
+        </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+</div>
+<!-- Modal End -->
+<!-- JavaScript (include all script here) -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+‌
+<script src="/../assets/js/sweat.examples.js?ver=104"></script>
+<script src="/../assets/js/jquery.bundle.js?ver=104"></script>
+<script src="/../assets/js/script.js?ver=104"></script>
+<script src="/js/autocomplete.js"></script>
+<script src="/js/md5.js"></script>
+</body>
+</html>

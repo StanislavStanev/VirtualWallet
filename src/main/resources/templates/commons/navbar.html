@@ -1,0 +1,82 @@
+<div class="topbar-wrap">
+    <div class="topbar is-sticky">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <ul class="topbar-nav d-lg-none">
+                    <li class="topbar-nav-item relative">
+                        <a class="toggle-nav" href="#">
+                            <div class="toggle-icon">
+                                <span class="toggle-line"></span>
+                                <span class="toggle-line"></span>
+                                <span class="toggle-line"></span>
+                                <span class="toggle-line"></span>
+                            </div>
+                        </a>
+                    </li><!-- .topbar-nav-item -->
+                </ul><!-- .topbar-nav -->
+                <a class="topbar-logo" th:href="@{/home}">
+                    <img src="https://res.cloudinary.com/dfiarn6oz/image/upload/v1580644033/logo-light2x_azhm2h.png"
+                         srcset="https://res.cloudinary.com/dfiarn6oz/image/upload/v1580644033/logo-light2x_azhm2h.png"
+                         alt="logo">
+                </a>
+                <ul class="topbar-nav">
+                    <li class="topbar-nav-item relative">
+                    <li class="user-welcome d-none d-lg-inline-block">Welcome, <span
+                            class="user-welcome d-none d-lg-inline-block"
+                            th:text="${#authentication.getPrincipal().getUsername()}"></span></li>
+                    <a class="toggle-tigger user-thumb" href="#"><em class="ti ti-user"></em></a>
+                    <div class="toggle-class dropdown-content dropdown-content-right dropdown-arrow-right user-dropdown">
+                        <div class="user-status">
+                            <h6 class="user-status-title">Menu</h6>
+                            <iframe src="http://free.timeanddate.com/clock/i751g006/n3443/fcfff/tct/pct/bacfff/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="90" height="38" allowTransparency="true"></iframe>
+                        </div>
+                        <ul class="user-links">
+                            <li><a th:href="@{/user/profile}"><i class="ti ti-id-badge"></i>My Profile</a></li>
+                        </ul>
+                        <ul class="user-links bg-light">
+                            <li><a value="/logout" th:href="@{/logout}"><i class="ti ti-power-off"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                    </li><!-- .topbar-nav-item -->
+                </ul><!-- .topbar-nav -->
+            </div>
+        </div><!-- .container -->
+    </div><!-- .topbar -->
+    <div class="navbar">
+        <div class="container">
+            <div class="navbar-innr">
+                <ul class="navbar-menu">
+                    <li><a th:href="@{'/home'}"><em class="ikon ikon-dashboard"></em> Dashboard</a></li>
+
+                    <li class="has-dropdown page-links-all"><a class="drop-toggle" href="#"><em
+                            class="ikon ikon-coins"></em> Create Transaction</a>
+                        <ul class="navbar-dropdown">
+                            <li><a th:href="@{/newtransaction/topup}">TopUp wallet</a></li>
+                            <li><a th:href="@{/newtransaction/sendmoney}">Send money</a></li>
+                        </ul>
+                    </li>
+                    <li><a th:href="@{/user/transactions}"><em class="ikon ikon-transactions"></em>All Transactions</a>
+                    </li>
+                    <li><a th:href="@{/user/bankcard}"><em class="ikon ikon-wallet "></em>Bank Card</a></li>
+                    <li class="has-dropdown page-links-all"><a class="drop-toggle" href="#"><em
+                            class="ikon ikon-coins"></em> Wallets</a>
+                        <ul class="navbar-dropdown">
+                            <li><a th:href="@{/user/wallets/walletCreate}">Create Wallet</a></li>
+                            <li><a th:href="@{/user/wallets/walletslist}">Wallets List</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown page-links-all"><a class="drop-toggle" href="#"
+                                                               sec:authorize="hasAuthority('ADMIN')"><em
+                            class="ikon ikon-settings"></em> Admin Panel</a>
+                        <ul class="navbar-dropdown">
+                            <li><a th:href="@{'/admin/users'}" sec:authorize="hasAuthority('ADMIN')">Users</a></li>
+                            <li><a th:href="@{'/admin/transactions'}"
+                                   sec:authorize="hasAuthority('ADMIN')">Transactions</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- .navbar-innr -->
+        </div><!-- .container -->
+    </div><!-- .navbar -->
+</div><!-- .topbar-wrap -->

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="../images/favicon.png">
+    <!-- Site Title  -->
+    <title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="../assets/css/vendor.bundle.css?ver=104">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="../assets/css/style.css?ver=104">
+    <link rel="stylesheet" href="../css/iao-alert.css">
+
+
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body class="page-user">
+
+<th:block th:include="~{/commons/navbar}">
+</th:block>
+
+
+<div class="page-content">
+    <div class="container">
+        <div class="content-area card">
+            <div class="card-innr">
+                <div class="card-head">
+                    <h6 class="card-title">Bank Card Menu</h6>
+                </div>
+                <div class="gaps-1x"></div>
+                <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-item-4">Bank Card
+                        Details</a>
+                    </li>
+                    <li class="nav-item" th:if="${!hasActiveCard}"><a class="nav-link" data-toggle="tab"
+                                                                      href="#tab-item-5">New Bank Card</a></li>
+                    <li class="nav-item" th:if="${hasActiveCard}"><a class="nav-link" data-toggle="tab"
+                                                                     href="#tab-item-6">Bank Card Update</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="tab-item-4">
+                        <h4>Bank Card Details</h4>
+                        <p>In this section you can see the current Details of your Bank Card. If the fields are empty,
+                            this means that you haven't added a Bank Card in our system yet. You can review this
+                            information to update it later.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-item-5">
+                        <h4>New Bank Card</h4>
+                        <p> From this section you can add your Bank Card (Debit or Credit), which will give you access
+                            to all our amazing
+                            services. If all information is correctly written, the Bank Card will be registered to your
+                            account. </p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-item-6">
+                        <h4>Bank Card Update</h4>
+                        <p> In case you've made a mistake while adding your Bank Card to our system, you are always
+                            welcome to modify it. Please be careful when working with Bank Card information and always
+                            take time to review changes before submitting them in our system.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gaps-1x"></div>
+        <div class="alert alert-danger-alt alert-dismissible fade show" th:if="${hasError}" th:text="${errorMessage}">
+            A simple danger alert with dismissible option check it out!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-success-alt alert-dismissible fade show" th:if="${hasSuccess}" th:text="${successMessage}">
+            A simple danger alert with dismissible option check it out!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="row">
+            <div class="main-content col-lg-8">
+                <div class="content-area card">
+                    <div class="card-innr">
+                        <div class="card-head">
+                            <h4 class="card-title">Bank Card</h4>
+                        </div>
+                        <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#bankcard-data">Bank card details</a>
+                            </li>
+                            <li class="nav-item" th:if="${!hasActiveCard}">
+                                <a class="nav-link" data-toggle="tab" href="#addBankCard">Add new bank card</a>
+                            </li>
+                            <li class="nav-item" th:if="${hasActiveCard}">
+                                <a class="nav-link" data-toggle="tab" href="#updateBankCard">Update current card</a>
+                            </li>
+                        </ul><!-- .nav-tabs-line -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="bankcard-data">
+                                <form th:object="${bankCard}" th:method="get">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="card-number" class="input-item-label">Card Number</label>
+                                                <input class="input-bordered col current-card" type="text"
+                                                       id="card-number"
+                                                       name="current-card" th:field="*{cardNumber}"
+                                                       disabled>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="card-holder" class="input-item-label">Card Holder</label>
+                                                <input class="input-bordered current-card" type="text" id="card-holder"
+                                                       name="current-card" th:field="*{cardHolderName}" disabled>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="expirationDate" class="input-item-label">Expiration
+                                                    date</label>
+                                                <input class="input-bordered current-card" type="text"
+                                                       id="expirationDate"
+                                                       name="current-card" th:field="*{expirationDate}" disabled>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="issuer" class="input-item-label">Issuer</label>
+                                                <input class="input-bordered current-card" type="text" id="issuer"
+                                                       name="current-card"
+                                                       th:field="*{cardIssuer}" disabled>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                        <div class="col-md-6" style="display: none;">
+                                            <div class="input-item input-with-label">
+                                                <label for="csv" class="input-item-label">CSV</label>
+                                                <input class="input-bordered current-card" type="text" id="csv"
+                                                       name="current-card"
+                                                       th:field="*{csv}" disabled>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                    </div><!-- .row -->
+                                    <div class="gaps-1x"></div><!-- 10px gap -->
+                                </form>
+                            </div><!-- .tab-pane -->
+                            <div class="tab-pane fade" id="addBankCard">
+                                <form th:action="@{/user/bankcard/register}" th:object="${bankCardRegisterDto}"
+                                      th:method="post" id="register">
+                                    <div class="row bank-card-form">
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addCardNumber" class="input-item-label text-exlight">Card
+                                                    Number</label>
+                                                <input class="input-bordered" type="text" id="addCardNumber"
+                                                       name="enterCardNumber" th:field="*{cardNumber}"
+                                                       placeholder="0000-0000-0000-0000">
+                                                <div class="input-item-label text-danger" id="card-number-error"></div>
+                                            </div><!-- .input-item -->
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addCardHolder" class="input-item-label text-exlight">Card
+                                                    Holder</label>
+                                                <input class="input-bordered" type="text" id="addCardHolder"
+                                                       name="enterCardHolder" th:field="*{cardHolderName}"
+                                                       placeholder="Enter your name here">
+                                                <div class="input-item-label text-danger" id="card-holder-error"></div>
+                                            </div><!-- .input-item -->
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addExpirationDate"
+                                                       class="input-item-label text-exlight">ExpirationDate</label>
+                                                <input class="input-bordered" type="text" id="addExpirationDate"
+                                                       name="enterExpirationDate" th:field="*{expirationDate}"
+                                                       placeholder="MM/YY"
+                                                       maxlength="5">
+                                                <div class="input-item-label text-danger"
+                                                     id="expiration-date-error"></div>
+                                            </div><!-- .input-item -->
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addIssuer"
+                                                       class="input-item-label text-exlight">Issuer</label>
+                                                <input class="input-bordered" type="text" id="addIssuer"
+                                                       name="enterIssuer" th:field="*{cardIssuer}"
+                                                       placeholder="Enter bank name">
+                                                <div class="input-item-label text-danger" id="issuer-error"></div>
+                                            </div><!-- .input-item -->
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addCsv" class="input-item-label text-exlight">CSV</label>
+                                                <input class="input-bordered" type="text" id="addCsv"
+                                                       name="enterCsv" th:field="*{csv}"
+                                                       placeholder="000"
+                                                       maxlength="3">
+                                                <div class="input-item-label text-danger" id="csv-error"></div>
+                                            </div><!-- .input-item -->
+                                        </div>
+
+                                    </div><!-- .row -->
+                                    <div class="gaps-1x"></div><!-- 10px gap -->
+                                    <div class="d-sm-flex justify-content-between align-items-center"
+                                         th:if="${!isBlocked && isEnabled}">
+                                        <button class="btn btn-primary" id="createCard">Create Card</button>
+<!--                                        <div class="row align-items-center guttar-vr-40px">-->
+<!--                                            <div class="col-sm-6 col-lg-3"><a href="#" data-toggle="modal"-->
+<!--                                                                              data-target="#modal-medium"-->
+<!--                                                                              class="btn btn-primary"-->
+<!--                                                                              id="register_Modal">Next</a></div>-->
+<!--                                        </div>-->
+                                        <div class="gaps-2x d-sm-none"></div>
+                                    </div><!-- form -->
+                                </form>
+                            </div><!-- .tab-pane -->
+                            <div class="tab-pane fade" id="updateBankCard">
+                                <form id="update">
+                                    <div class="row bank-card-form">
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addCardNumber" class="input-item-label text-exlight">Card
+                                                    Number</label>
+                                                <input class="input-bordered" type="text" id="updateCardNumber"
+                                                       name="enterCardNumber"
+                                                       placeholder="0000-0000-0000-0000">
+                                                <div class="input-item-label text-danger"
+                                                     id="card-number-error-update"></div>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addCardHolder" class="input-item-label text-exlight">Card
+                                                    Holder</label>
+                                                <input class="input-bordered" type="text" id="updateCardHolder"
+                                                       name="enterCardHolder"
+                                                       placeholder="Enter your name here">
+                                                <div class="input-item-label text-danger"
+                                                     id="card-holder-error-update"></div>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addExpirationDate"
+                                                       class="input-item-label text-exlight">Expiration Date</label>
+                                                <input class="input-bordered" type="text" id="updateExpirationDate"
+                                                       name="enterExpirationDate"
+                                                       placeholder="MM/YY">
+                                                <div class="input-item-label text-danger"
+                                                     id="expiration-date-error-update"></div>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addIssuer"
+                                                       class="input-item-label text-exlight">Issuer</label>
+                                                <input class="input-bordered" type="text" id="updateIssuer"
+                                                       name="enterIssuer"
+                                                       placeholder="Enter bank name">
+                                                <div class="input-item-label text-danger"
+                                                     id="issuer-error-update"></div>
+                                            </div><!-- .input-item -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-item input-with-label">
+                                                <label for="addCsv" class="input-item-label text-exlight">CSV</label>
+                                                <input class="input-bordered" type="text" id="updateCsv"
+                                                       name="enterCsv"
+                                                       placeholder="000"
+                                                       maxlength="3">
+                                                <div class="input-item-label text-danger" id="csv-error-update"></div>
+                                            </div><!-- .input-item -->
+                                        </div>
+
+                                    </div><!-- .row -->
+                                    <div class="gaps-1x"></div><!-- 10px gap -->
+                                    <div class="d-sm-flex justify-content-between align-items-center"
+                                         th:if="${!isBlocked && isEnabled}">
+                                        <div class="row align-items-center guttar-vr-40px">
+                                            <div class="col-sm-6 col-lg-3"><a href="#" data-toggle="modal"
+                                                                              data-target="#modal-medium"
+                                                                              class="btn btn-primary" id="update_Modal">Next</a>
+                                            </div>
+                                        </div>
+                                        <!--                                        <button class="btn btn-primary" id="updateCard">Update Card</button>-->
+                                        <div class="gaps-2x d-sm-none"></div>
+                                        <a class="btn btn-warning" th:href="@{/user/bankcard/delete(cardNumber=${bankCard.cardNumber},csv=${bankCard.csv})}"> Delete</a>
+                                    </div><!-- form -->
+                                </form>
+                            </div><!-- .tab-pane -->
+                        </div>
+                    </div><!-- .tab-content -->
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+            <div class="aside sidebar-right col-lg-4">
+                <div class="account-info card">
+                    <div class="card-innr">
+                        <h6 class="card-title card-title-sm">Account Status</h6>
+                        <a href="#" class="btn btn-auto btn-xs btn-danger" th:if="${isBlocked}">Blocked</a>
+                        <a href="#" class="btn btn-auto btn-xs btn-success" th:unless="${isBlocked}">Enabled</a>
+                        <div class="gaps-2-5x"></div>
+                        <h6 class="card-title card-title-sm">Note</h6>
+                        <div class="d-flex justify-content-between" th:if="${isBlocked}">
+                            <span>Your account was disabled by one of our Admins. You won't be able to register a new Bank Card or edit/remove your current one. Please send us an e-mail for more information.</span>
+                        </div>
+                        <div class="d-flex justify-content-between" th:unless="${isBlocked}">
+                            <span><span>Your account is enabled. You can add/edit your Bank Card now.</span> <em
+                                    class="fas fa-info-circle text-exlight" data-toggle="tooltip"
+                                    data-placement="bottom" title="Verification Successful."></em></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="account-info card">
+                    <div class="card-innr">
+                        <h6 class="card-title card-title-sm">Email Verification Status</h6>
+                        <a href="#" class="btn btn-auto btn-xs btn-success" th:if="${isEnabled}">Verified</a>
+                        <a href="#" class="btn btn-auto btn-xs btn-danger" th:unless="${isEnabled}">Not Verified</a>
+                        <div class="gaps-2-5x"></div>
+                        <h6 class="card-title card-title-sm">Email Verification</h6>
+                        <div class="d-flex justify-content-between" th:if="${isEnabled}">
+                            <span><span>Your e-mail is verified. You can add/edit your Bank Card now.</span> <em
+                                    class="fas fa-info-circle text-exlight" data-toggle="tooltip"
+                                    data-placement="bottom" title="Verification Successful."></em></span>
+                        </div>
+                        <div class="d-flex justify-content-between" th:unless="${isEnabled}">
+                            <span>Before you can start enjoying our services, please verify your e-mail address. You can do so from the Profile Page.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .col -->
+        <!-- Modal Medium -->
+        <div class="modal fade" id="modal-medium" tabindex="-1">
+            <div class="modal-dialog modal-dialog-md modal-dialog-centered">
+                <div class="modal-content">
+                    <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em
+                            class="ti ti-close"></em></a>
+                    <div class="popup-body">
+                        <h3 class="popup-title">Bank Card Information</h3>
+                        <p>Please take a moment to review the new information of your <a href="#"><strong>Bank
+                            Card</strong></a> and make sure that it is correct.</p>
+                        <form th:action="@{/user/bankcard/update}" th:object="${bankCardUpdateDto}" th:method="post"
+                              id="updateModal">
+                            <div class="row bank-card-form">
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label for="modalCardNumber" class="input-item-label text-exlight">Card
+                                            Number</label>
+                                        <input class="input-bordered" type="text" id="modalCardNumber"
+                                               name="modal"
+                                               th:field="*{cardNumber}"
+                                               placeholder="0000-0000-0000-0000" readonly>
+                                    </div><!-- .input-item -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label for="modalCardHolder" class="input-item-label text-exlight">Card
+                                            Holder</label>
+                                        <input class="input-bordered" type="text" id="modalCardHolder"
+                                               name="modal"
+                                               th:field="*{cardHolderName}"
+                                               placeholder="Enter your name here" readonly>
+                                    </div><!-- .input-item -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label for="modalExpirationDate"
+                                               class="input-item-label text-exlight">Expiration Date</label>
+                                        <input class="input-bordered" type="text" id="modalExpirationDate"
+                                               name="modal"
+                                               th:field="*{expirationDate}"
+                                               placeholder="MM/YY" readonly>
+                                    </div><!-- .input-item -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label for="modalIssuer" class="input-item-label text-exlight">Issuer</label>
+                                        <input class="input-bordered" type="text" id="modalIssuer"
+                                               name="modal"
+                                               th:field="*{cardIssuer}"
+                                               placeholder="Enter bank name" readonly>
+                                    </div><!-- .input-item -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item input-with-label">
+                                        <label for="modalCsv" class="input-item-label text-exlight">CSV</label>
+                                        <input class="input-bordered" type="text" id="modalCsv"
+                                               name="modal"
+                                               th:field="*{csv}"
+                                               placeholder="000"
+                                               maxlength="3" readonly>
+                                    </div><!-- .input-item -->
+                                </div>
+                            </div><!-- .row -->
+                            <div class="gaps-1x"></div><!-- 10px gap -->
+                            <div class="d-sm-flex justify-content-between align-items-center">
+                                <button class="btn btn-primary" id="updateCard">Update Card</button>
+                                <div class="gaps-2x d-sm-none"></div>
+                            </div>
+                        </form>
+                        <div>
+                            <span class="input-note">Note: You can make changes to the Bank Card Details afterwards.</span>
+                        </div>
+                        <div class="note note-plane note-danger">
+                            <em class="fas fa-info-circle"></em>
+                            <p>DO NOT enter information of a Bank Card unless your are the verified owner. TokenWiz
+                                cannot be held responsible for any fraudulent use of cards with our services.</p>
+                        </div>
+
+
+                    </div>
+                </div><!-- .modal-content -->
+            </div><!-- .modal-dialog -->
+        </div>
+        <!-- Modal End -->
+    </div><!-- .container -->
+</div><!-- .container -->
+</div><!-- .page-content -->
+
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="#">Whitepaper</a></li>
+                    <li><a href="faq-page.html">FAQs</a></li>
+                    <li><a href="regular-page.html">Privacy Policy</a></li>
+                    <li><a href="regular-page.html">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">&copy; 2018 TokenWiz.</div>
+                    <div class="lang-switch relative">
+                        <a href="#" class="lang-switch-btn toggle-tigger">En <em class="ti ti-angle-up"></em></a>
+                        <div class="toggle-class dropdown-content dropdown-content-up">
+                            <ul class="lang-list">
+                                <li><a href="#">Fr</a></li>
+                                <li><a href="#">Bn</a></li>
+                                <li><a href="#">Lt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+
+<!-- JavaScript (include all script here) -->
+
+<script src="../assets/js/jquery.bundle.js?ver=104"></script>
+<script src="../assets/js/script.js?ver=104"></script>
+<!--    <script src="../webjars/jquery/3.0.0/jquery.js"></script>-->
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="../js/iao-alert.jquery.js"></script>
+<script src="../js/bankcard-register-validation.js"></script>
+<script src="../js/bankcard-update-validation.js"></script>
+<script src="../js/bank-card-cc_format-validation.js"></script>
+<script src="../js/insert-modal-data.js"></script>
+</body>
+</html>
